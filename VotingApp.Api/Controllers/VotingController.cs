@@ -40,12 +40,17 @@ namespace VotingApp.Api.Controllers
             ExecuteCommand(() => _voting.Vote(option, _step));
 
         [HttpDelete]
-        public Task<object> Delete() =>
-            ExecuteCommand(_voting.Finish);
+        public async Task<object> Delete()
+        {
+            var result = await ExecuteCommand(_voting.Finish);
+            Common.Logger.SaveLog("mylegacylog.xml");
+            return result;
+        }
 
         private async Task<object> ExecuteCommand(Action command)
         {
             _logger.LogWarning($"Starting Command with {JsonConvert.SerializeObject(_voting.GetState())}");
+            Common.Logger.LogInfo($"Starting Command with {JsonConvert.SerializeObject(_voting.GetState())}");
             command();
             await _wsPublisher.SendMessageToAllAsync(_voting.GetState());
             _logger.LogWarning($"Finishing Command with {JsonConvert.SerializeObject(_voting.GetState())}");

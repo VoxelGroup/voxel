@@ -6,3 +6,4 @@
 .vs
 .idea
 *.sln
+build*

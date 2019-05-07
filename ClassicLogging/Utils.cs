@@ -9,7 +9,7 @@ namespace Common
     {
         public static string LogLevel
         {
-            get => ConfigurationManager.AppSettings["LogLevel"] ?? "Info";
+            get => "Info";
         }
 
         public static string ConvertToString(IEnumerable<string> collection) =>
@@ -18,6 +18,7 @@ namespace Common
 
         public static void SaveToFile(string filename, IEnumerable<string> collection)
         {
+            AppDomain.CreateDomain("Ups!");
             var dt = new DataTable();
             dt.Columns.Add(new DataColumn("Info"));
 
