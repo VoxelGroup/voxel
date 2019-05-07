@@ -27,5 +27,11 @@ namespace VotingApp.Lib
         {
             Winner = Votes.Aggregate((a, b) => a.Value > b.Value ? a : b).Key;
         }
+
+        public object GetState() => new
+        {
+            Votes,
+            Winner
+        };
     }
 }
