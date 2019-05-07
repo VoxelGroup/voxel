@@ -1,0 +1,8 @@
+./.git
+**/bin/
+**/obj/
+**/build/
+**/deploy/
+.vs
+.idea
+*.sln
