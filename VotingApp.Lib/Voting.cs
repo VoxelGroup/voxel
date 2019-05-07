@@ -16,6 +16,7 @@ namespace VotingApp.Lib
         public void Start(params string[] options)
         {
             Votes = options.ToDictionary(o => o, _ => 0);
+            Winner = "";
         }
 
         public void Vote(string option, int step = 1)
