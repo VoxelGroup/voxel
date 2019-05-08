@@ -8,6 +8,11 @@ services:
       dockerfile: ./VotingApp.Api/Dockerfile
     ports:
      - 8080:80
+    environment:
+      mongodb: mongodb://db:27017
+  
+  db:
+    image: mongo:4 
   
   integrationtest:
     image: paulopez/integrationtest:2.2

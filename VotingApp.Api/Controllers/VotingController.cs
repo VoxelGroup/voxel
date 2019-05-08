@@ -15,46 +15,54 @@ namespace VotingApp.Api.Controllers
     [ApiController]
     public class VotingController : ControllerBase
     {
-        private readonly Voting _voting;
+        private readonly IVotingService _votingService;
         private readonly int _step;
         private readonly ILogger<VotingController> _logger;
         private readonly IWebSocketPublisher _wsPublisher;
 
-        public VotingController(Voting voting, IConfiguration config, ILogger<VotingController> logger, IWebSocketPublisher wsPublisher)
+        public VotingController(IVotingService votingService, IConfiguration config, ILogger<VotingController> logger, IWebSocketPublisher wsPublisher)
         {
-            _voting = voting;
+            _votingService = votingService;
             _step = config.GetValue<int>("VotingStep", 1);
             _logger = logger;
             _wsPublisher = wsPublisher;
         }
 
         [HttpGet]
-        public object Get() => _voting.GetState();
+        public async Task<object> Get()
+        {
+            var voting = await _votingService.Get();
+            return voting.GetState();
+        }
 
         [HttpPost]
         public Task<object> Post([FromBody] string[] options) =>
-            ExecuteCommand(() => _voting.Start(options));
+            ExecuteCommand(voting => voting.Start(options));
 
         [HttpPut]
         public Task<object> Put([FromBody] string option) =>
-            ExecuteCommand(() => _voting.Vote(option, _step));
+            ExecuteCommand(voting => voting.Vote(option, _step));
 
         [HttpDelete]
         public async Task<object> Delete()
         {
-            var result = await ExecuteCommand(_voting.Finish);
+            var result = await ExecuteCommand(voting => voting.Finish());
             Common.Logger.SaveLog("mylegacylog.xml");
             return result;
         }
 
-        private async Task<object> ExecuteCommand(Action command)
+        private async Task<object> ExecuteCommand(Action<Voting> command)
         {
-            _logger.LogWarning($"Starting Command with {JsonConvert.SerializeObject(_voting.GetState())}");
-            Common.Logger.LogInfo($"Starting Command with {JsonConvert.SerializeObject(_voting.GetState())}");
-            command();
-            await _wsPublisher.SendMessageToAllAsync(_voting.GetState());
-            _logger.LogWarning($"Finishing Command with {JsonConvert.SerializeObject(_voting.GetState())}");
-            return _voting.GetState();
+            var voting = await _votingService.Get();
+            _logger.LogWarning($"Starting Command with {JsonConvert.SerializeObject(voting.GetState())}");
+            Common.Logger.LogInfo($"Starting Command with {JsonConvert.SerializeObject(voting.GetState())}");
+
+            command(voting);
+            await _votingService.Save(voting);
+            await _wsPublisher.SendMessageToAllAsync(voting.GetState());
+
+            _logger.LogWarning($"Finishing Command with {JsonConvert.SerializeObject(voting.GetState())}");
+            return voting.GetState();
         }
     }
 }

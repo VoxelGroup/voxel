@@ -10,8 +10,14 @@ namespace VotingApp.Lib
         {
         }
 
-        public Dictionary<string, int> Votes { get; set; }
-        public string Winner { get; set; }
+        public Voting(Dictionary<string, int> votes, string winner)
+        {
+            Votes = votes;
+            Winner = winner;
+        }
+
+        public Dictionary<string, int> Votes { get; private set; }
+        public string Winner { get; private set; }
 
         public void Start(params string[] options)
         {
