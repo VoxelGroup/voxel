@@ -6,4 +6,13 @@ services:
     build:
       context: .
       dockerfile: ./VotingApp.Api/Dockerfile
+    ports:
+     - 8080:80
+  
+  integrationtest:
+    image: paulopez/integrationtest:2.2
+    build:
+      context: ./integration-test
+    environment:
+      VOTING_URL: votingapp
       

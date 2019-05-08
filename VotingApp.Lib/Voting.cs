@@ -24,6 +24,7 @@ namespace VotingApp.Lib
             Votes[option] = Votes[option] + step;
         }
 
+
         public void Finish()
         {
             Winner = Votes.Aggregate((a, b) => a.Value > b.Value ? a : b).Key;
