@@ -27,6 +27,18 @@ namespace VotingApp.Api
         {
             services.AddMvc();
             services.AddSingleton<Voting>();
+
+            if (Configuration["mongodb"] == null)
+            {
+                services.AddSingleton<IVotingService, InMemoryVotingService>();
+            }
+            else
+            {
+                services.AddScoped<IVotingService>(
+                    x => new MongoDbVotingService(Configuration["mongodb"])
+                );
+            }
+
             services.AddEasyWebSockets();
         }
 
