@@ -1,0 +1,9 @@
+version: "3.6"
+
+services:
+  votingapp:
+    image: paulopez/votingapp:2.2
+    build:
+      context: .
+      dockerfile: ./VotingApp.Api/Dockerfile
+      
