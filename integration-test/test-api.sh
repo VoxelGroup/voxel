@@ -1,22 +1,27 @@
-curl http://localhost:5000/api/voting \
+#!/bin/bash
+
+url="http://"${VOTING_URL-:"localhost:5000"}"/api/voting"
+echo "Executing in .."$url
+curl $url  \
 --request 'POST' \
 --data '["c#","java"]' \
 --header 'Content-Type: application/json'
 
 echo '\n'
 
-curl http://localhost:5000/api/voting \
+curl $url  \
 --request 'PUT' \
 --data '"c#"' \
 --header 'Content-Type: application/json' 
 
 echo '\n'
 
-winner=$(curl http://localhost:5000/api/voting \
+winner=$(curl $url \
 --request 'DELETE' \
 --silent \
 --header 'Content-Type: application/json' | jq -r '.winner')
 
+echo "The winner is "$winner
 if [ "$winner" == "c#" ]; then
     echo "PASSED!"
     exit 0 

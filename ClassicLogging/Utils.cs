@@ -18,7 +18,6 @@ namespace Common
 
         public static void SaveToFile(string filename, IEnumerable<string> collection)
         {
-            AppDomain.CreateDomain("Ups!");
             var dt = new DataTable();
             dt.Columns.Add(new DataColumn("Info"));
 
