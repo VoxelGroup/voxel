@@ -6,13 +6,18 @@ services:
     build:
       context: .
       dockerfile: ./VotingApp.Api/Dockerfile
-    ports:
-     - 8080:80
     environment:
       mongodb: mongodb://db:27017
   
   db:
     image: mongo:4 
+
+  gateway:
+    image: paulopez/gateway:2.2
+    build:
+      context: ./gateway
+    ports:
+     - 8080:80
   
   integrationtest:
     image: paulopez/integrationtest:2.2
