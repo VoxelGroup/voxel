@@ -2,7 +2,7 @@ version: "3.6"
 
 services:
   votingapp:
-    image: paulopez/votingapp:2.2
+    image: votingapp:${TAG:-latest}
     build:
       context: .
       dockerfile: ./VotingApp.Api/Dockerfile
@@ -13,14 +13,14 @@ services:
     image: mongo:4 
 
   gateway:
-    image: paulopez/gateway:2.2
+    image: gateway:${TAG:-latest}
     build:
       context: ./gateway
     ports:
      - 8080:80
   
   integrationtest:
-    image: paulopez/integrationtest:2.2
+    image: integrationtest:${TAG:-latest}
     build:
       context: ./integration-test
     environment:
