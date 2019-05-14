@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: votingapp
+spec:
+  replicas: 3
+  selector:
+    run: votingapp
+  template:
+    metadata:
+      labels:
+        run: votingapp
+    spec:
+      containers:
+      - image: votingapp:1
+        name: votingapp
