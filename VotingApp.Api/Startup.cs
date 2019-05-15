@@ -34,7 +34,8 @@ namespace VotingApp.Api
                 .AddCheck("liveness", () => HealthCheckResult.Healthy(), new[] { "live" })
                 .AddCheck("readiness", () => HealthCheckResult.Healthy(), new[] { "ready" });
 
-            // HealthCheckResult FakeFailingCheck() => DateTime.Now.Second > 30 ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy();
+
+            HealthCheckResult FakeFailingCheck() => DateTime.Now.Second > 30 ? HealthCheckResult.Healthy() : HealthCheckResult.Unhealthy();
 
             if (Configuration["mongodb"] == null)
             {

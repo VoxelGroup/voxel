@@ -7,3 +7,4 @@ sleep 2
 
 docker-compose run --rm integrationtest
 # docker-compose push
+kubectl set image deploy/votingapp votingapp=votingapp:${TAG} --record

@@ -13,11 +13,13 @@ spec:
         run: votingapp
     spec:
       containers:
-      - image: votingapp:1
+      - image: votingapp:4
         name: votingapp
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: Staging
+        - name: Logging__LogLevel__Default
+          value: Information
         livenessProbe: 
           httpGet:
             path: /hc/live
