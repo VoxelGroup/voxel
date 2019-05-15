@@ -6,10 +6,9 @@ metadata:
   name: votingapp
 spec:
   ports:
-  - nodePort: 32377
-    port: 80
+  - port: 80
     protocol: TCP
     targetPort: 80
   selector:
     run: votingapp
-  type: NodePort
+  type: ClusterIP
