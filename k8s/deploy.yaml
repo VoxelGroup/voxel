@@ -13,7 +13,7 @@ spec:
         run: votingapp
     spec:
       containers:
-      - image: votingapp:4
+      - image: votingapp:6
         name: votingapp
         env:
         - name: ASPNETCORE_ENVIRONMENT
