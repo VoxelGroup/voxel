@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: database
+  template:
+    metadata:
+      labels:
+        run: database
+    spec:
+      containers:
+      - image: mongo:4
+        name: database
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    run: database
+  name: database
+spec:
+  ports:
+  - port: 27017 
+    protocol: TCP
+    targetPort: 27017 
+  selector:
+    run: database 
+  type: ClusterIP
