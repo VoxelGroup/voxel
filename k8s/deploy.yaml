@@ -20,6 +20,8 @@ spec:
           value: Staging
         - name: Logging__LogLevel__Default
           value: Information
+        - name: mongodb
+          value: mongodb://database
         livenessProbe: 
           httpGet:
             path: /hc/live
